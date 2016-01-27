@@ -1,6 +1,6 @@
 Game =
   # FontAwesome shapes of game pieces within an array.
-  shapes: ["bomb", "diamond", "heart", "star"]
+  shapes: ["bomb", "diamond", "heart", "star", "rocket", "user"]
   # Generate a random shape by adding 'fa-' class to the value in the shapes array on above.
   # Math.floor rounds down number (ie. 5.6 = 5).
   # Math.random generates a random number, in this case based on the length of the shapes array (which is 3 in index values).

@@ -1,7 +1,7 @@
 var Game;
 
 Game = {
-  shapes: ["bomb", "diamond", "heart", "star"],
+  shapes: ["bomb", "diamond", "heart", "star", "rocket", "user"],
   randomShapeClass: function() {
     return "fa-" + Game.shapes[Math.floor(Math.random() * Game.shapes.length)];
   },

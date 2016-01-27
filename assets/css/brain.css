@@ -24,3 +24,7 @@
           color: #d35400; }
         #board .row .cell i.fa-diamond {
           color: #9b59b6; }
+        #board .row .cell i.fa-rocket {
+          color: #16a085; }
+        #board .row .cell i.fa-user {
+          color: #2c3e50; }
