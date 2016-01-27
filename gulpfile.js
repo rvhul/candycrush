@@ -1,7 +1,10 @@
+// When creating new project and want to use this process, first install gulp dependencies via terminal (npm install --save-dev gulp gulp-coffee gulp-sass) within new project folder. Then paste this code (FOLLOW SAME FOLDER STRUCTURE AS HERE) within gulpfile.js
+
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var coffee = require('gulp-coffee');
 var sass = require('gulp-sass');
+
 // Task for CoffeeScript
 gulp.task('coffee', function() {
   gulp.src('./assets/js/coffee/*.coffee')
