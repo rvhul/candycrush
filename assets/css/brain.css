@@ -3,12 +3,24 @@
 
 #board {
   margin: 0 auto;
-  width: 100vmin; }
+  width: 100vmin;
+  text-align: center; }
   #board .row {
     height: 10vmin; }
     #board .row .cell {
       display: inline-block;
       width: 10vmin;
       height: 10vmin;
-      background-color: #95a5a6;
-      border: solid 1px #ecf0f1; }
+      background-color: #ecf0f1;
+      border: solid 1px #7f8c8d; }
+      #board .row .cell i {
+        font-size: 8vmin;
+        line-height: 10vmin; }
+        #board .row .cell i.fa-heart {
+          color: #c0392b; }
+        #board .row .cell i.fa-star {
+          color: #2ecc71; }
+        #board .row .cell i.fa-bomb {
+          color: #d35400; }
+        #board .row .cell i.fa-diamond {
+          color: #9b59b6; }
