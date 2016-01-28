@@ -11,31 +11,33 @@ Game = {
     });
   },
   populateCellsWithCoordinates: function() {
-    var rowNo;
+    var colNo, rowNo;
     rowNo = 1;
-    return $.each($("#board .row"), function(i, row) {
-      var colNo;
+    colNo = 1;
+    $.each($("#board .row"), function(i, row) {
       colNo = 1;
-      $.each($(ele).children(".cell"), function(j, cell) {
+      $.each($(row).children(".cell"), function(j, cell) {
         cell.dataset.rowNo = rowNo;
-        return cell.dataset.colNo = colNo;
+        cell.dataset.colNo = colNo;
+        return colNo++;
       });
-      colNo++;
       return rowNo++;
     });
+    Game.rowCount = rowNo;
+    return Game.columnCount = colNo;
   },
   checkMatches: function() {
     return console.log("Checking matches");
-  }
-};
-
-({
+  },
   init: function() {
+    Game.rowCount = 0;
+    Game.columnCount = 0;
     Game.populateCellsWithShapes();
     Game.populateCellsWithCoordinates();
-    return Game.checkMatches();
+    Game.checkMatches();
+    return Game.randomShapeClass();
   }
-});
+};
 
 $(function() {
   return Game.init();

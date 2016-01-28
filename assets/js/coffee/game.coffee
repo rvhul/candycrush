@@ -15,23 +15,34 @@ Game =
 
   # Change data attribute to 'cell' class within row to increment row by row, column by column -- an automated method instead of manually typing it out for each cell.
   populateCellsWithCoordinates: ->
+    # Setting row and column values to 1 at the start of the loop
     rowNo = 1
+    colNo = 1
+    # Taking the .each module and applying it to an array of #board > .row to retrieve all the rows within the section #board - passing it two values index, value(row).
     $.each $("#board .row"), (i, row) ->
-        colNo = 1
-        $.each $(ele).children(".cell"), (j, cell) ->
-          cell.dataset.rowNo = rowNo
-          cell.dataset.colNo = colNo
+      # Setting column number to 1.
+      colNo = 1
+      # Now using the .each module again to select the child sub-class of .row which is .cell.
+      $.each $(row).children(".cell"), (j, cell) ->
+        # Adding the data-row-no data attribute to the html code on the browser end.
+        cell.dataset.rowNo = rowNo
+        cell.dataset.colNo = colNo
         colNo++
-        rowNo++
+      rowNo++
+    Game.rowCount = rowNo
+    Game.columnCount = colNo
 
   checkMatches: ->
     console.log "Checking matches"
 
 # Initialize functions to work in tandem within the Game object.
-init: ->
-  Game.populateCellsWithShapes()
-  Game.populateCellsWithCoordinates()
-  Game.checkMatches()
+  init: ->
+    Game.rowCount = 0
+    Game.columnCount = 0
+    Game.populateCellsWithShapes()
+    Game.populateCellsWithCoordinates()
+    Game.checkMatches()
+    Game.randomShapeClass()
 
 # Initializing the entire game.
 $ ->
