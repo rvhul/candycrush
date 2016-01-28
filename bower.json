@@ -24,5 +24,10 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "jquery": "^2.2.0",
+    "normalize-strings": "normalize#^1.0.4",
+    "animate.css": "^3.5.1"
+  }
 }

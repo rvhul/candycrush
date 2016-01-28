@@ -11,7 +11,7 @@ Game =
 
   # Populating the cells with randomly generated shape classes.
   populateCellsWithShapes: ->
-    $.each $(".cell i"), (i, ele) -> $(ele).addClass Game.randomShapeClass
+    $.each $(".cell i"), (i, ele) -> $(ele).addClass(Game.randomShapeClass).addClass('animated').addClass('infinite')
 
   # Change data attribute to 'cell' class within row to increment row by row, column by column -- an automated method instead of manually typing it out for each cell.
   populateCellsWithCoordinates: ->
@@ -23,7 +23,7 @@ Game =
       # Setting column number to 1.
       colNo = 1
       # Now using the .each module again to select the child sub-class of .row which is .cell.
-      $.each $(row).children(".cell"), (j, cell) ->
+      $.each $(row).children('.cell'), (j, cell) ->
         # Adding the data-row-no data attribute to the html code on the browser end.
         cell.dataset.rowNo = rowNo
         cell.dataset.colNo = colNo
@@ -31,6 +31,28 @@ Game =
       rowNo++
     Game.rowCount = rowNo
     Game.columnCount = colNo
+
+  fetchCell: (rowNo, colNo) ->
+    selector = ".cell"
+    selector += "[data-row-no='#{rowNo}']"
+    selector += "[data-col-no='#{colNo}']"
+    $(selector)
+
+  highlightCell: (cell) ->
+    $(cell).children('i').addClass('rubberBand')
+
+  selectCell: (cell) ->
+    $(cell).children('i').addClass('pulse')
+    colNo = parseInt(cell.dataset.colNo)
+    rowNo = parseInt(cell.dataset.rowNo)
+    Game.highlightCell(Game.fetchCell(rowNo-1, colNo))
+    Game.highlightCell(Game.fetchCell(rowNo+1, colNo))
+    Game.highlightCell(Game.fetchCell(rowNo, colNo-1))
+    Game.highlightCell(Game.fetchCell(rowNo, colNo+1))
+
+  bindCellsForClick: ->
+    $('.cell').click ->
+      Game.selectCell(@)
 
   checkMatches: ->
     console.log "Checking matches"
@@ -41,6 +63,7 @@ Game =
     Game.columnCount = 0
     Game.populateCellsWithShapes()
     Game.populateCellsWithCoordinates()
+    Game.bindCellsForClick()
     Game.checkMatches()
     Game.randomShapeClass()
 

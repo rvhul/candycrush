@@ -7,7 +7,7 @@ Game = {
   },
   populateCellsWithShapes: function() {
     return $.each($(".cell i"), function(i, ele) {
-      return $(ele).addClass(Game.randomShapeClass);
+      return $(ele).addClass(Game.randomShapeClass).addClass('animated').addClass('infinite');
     });
   },
   populateCellsWithCoordinates: function() {
@@ -16,7 +16,7 @@ Game = {
     colNo = 1;
     $.each($("#board .row"), function(i, row) {
       colNo = 1;
-      $.each($(row).children(".cell"), function(j, cell) {
+      $.each($(row).children('.cell'), function(j, cell) {
         cell.dataset.rowNo = rowNo;
         cell.dataset.colNo = colNo;
         return colNo++;
@@ -26,6 +26,31 @@ Game = {
     Game.rowCount = rowNo;
     return Game.columnCount = colNo;
   },
+  fetchCell: function(rowNo, colNo) {
+    var selector;
+    selector = ".cell";
+    selector += "[data-row-no='" + rowNo + "']";
+    selector += "[data-col-no='" + colNo + "']";
+    return $(selector);
+  },
+  highlightCell: function(cell) {
+    return $(cell).children('i').addClass('rubberBand');
+  },
+  selectCell: function(cell) {
+    var colNo, rowNo;
+    $(cell).children('i').addClass('pulse');
+    colNo = parseInt(cell.dataset.colNo);
+    rowNo = parseInt(cell.dataset.rowNo);
+    Game.highlightCell(Game.fetchCell(rowNo - 1, colNo));
+    Game.highlightCell(Game.fetchCell(rowNo + 1, colNo));
+    Game.highlightCell(Game.fetchCell(rowNo, colNo - 1));
+    return Game.highlightCell(Game.fetchCell(rowNo, colNo + 1));
+  },
+  bindCellsForClick: function() {
+    return $('.cell').click(function() {
+      return Game.selectCell(this);
+    });
+  },
   checkMatches: function() {
     return console.log("Checking matches");
   },
@@ -34,6 +59,7 @@ Game = {
     Game.columnCount = 0;
     Game.populateCellsWithShapes();
     Game.populateCellsWithCoordinates();
+    Game.bindCellsForClick();
     Game.checkMatches();
     return Game.randomShapeClass();
   }
