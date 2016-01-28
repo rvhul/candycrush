@@ -42,13 +42,22 @@ Game =
     $(cell).children('i').addClass('rubberBand')
 
   selectCell: (cell) ->
-    $(cell).children('i').addClass('pulse')
-    colNo = parseInt(cell.dataset.colNo)
-    rowNo = parseInt(cell.dataset.rowNo)
-    Game.highlightCell(Game.fetchCell(rowNo-1, colNo))
-    Game.highlightCell(Game.fetchCell(rowNo+1, colNo))
-    Game.highlightCell(Game.fetchCell(rowNo, colNo-1))
-    Game.highlightCell(Game.fetchCell(rowNo, colNo+1))
+    if Game.selectedCell == null
+      console.log "fgdfg"
+      Game.selectedCell = cell
+      $(cell).children('i').addClass('pulse')
+      colNo = parseInt(cell.dataset.colNo)
+      rowNo = parseInt(cell.dataset.rowNo)
+      Game.highlightCell(Game.fetchCell(rowNo-1, colNo))
+      Game.highlightCell(Game.fetchCell(rowNo+1, colNo))
+      Game.highlightCell(Game.fetchCell(rowNo, colNo-1))
+      Game.highlightCell(Game.fetchCell(rowNo, colNo+1))
+    else
+      Game.deselectCell()
+
+  deselectCell: ->
+    $('.cell i').removeClass('rubberBand').removeClass('pulse')
+    Game.selectedCell = null
 
   bindCellsForClick: ->
     $('.cell').click ->
@@ -61,9 +70,11 @@ Game =
   init: ->
     Game.rowCount = 0
     Game.columnCount = 0
+    # Game.selectedCell()
+    Game.deselectCell()
+    Game.bindCellsForClick()
     Game.populateCellsWithShapes()
     Game.populateCellsWithCoordinates()
-    Game.bindCellsForClick()
     Game.checkMatches()
     Game.randomShapeClass()
 

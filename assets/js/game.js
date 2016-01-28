@@ -38,13 +38,23 @@ Game = {
   },
   selectCell: function(cell) {
     var colNo, rowNo;
-    $(cell).children('i').addClass('pulse');
-    colNo = parseInt(cell.dataset.colNo);
-    rowNo = parseInt(cell.dataset.rowNo);
-    Game.highlightCell(Game.fetchCell(rowNo - 1, colNo));
-    Game.highlightCell(Game.fetchCell(rowNo + 1, colNo));
-    Game.highlightCell(Game.fetchCell(rowNo, colNo - 1));
-    return Game.highlightCell(Game.fetchCell(rowNo, colNo + 1));
+    if (Game.selectedCell === null) {
+      console.log("fgdfg");
+      Game.selectedCell = cell;
+      $(cell).children('i').addClass('pulse');
+      colNo = parseInt(cell.dataset.colNo);
+      rowNo = parseInt(cell.dataset.rowNo);
+      Game.highlightCell(Game.fetchCell(rowNo - 1, colNo));
+      Game.highlightCell(Game.fetchCell(rowNo + 1, colNo));
+      Game.highlightCell(Game.fetchCell(rowNo, colNo - 1));
+      return Game.highlightCell(Game.fetchCell(rowNo, colNo + 1));
+    } else {
+      return Game.deselectCell();
+    }
+  },
+  deselectCell: function() {
+    $('.cell i').removeClass('rubberBand').removeClass('pulse');
+    return Game.selectedCell = null;
   },
   bindCellsForClick: function() {
     return $('.cell').click(function() {
@@ -57,9 +67,10 @@ Game = {
   init: function() {
     Game.rowCount = 0;
     Game.columnCount = 0;
+    Game.deselectCell();
+    Game.bindCellsForClick();
     Game.populateCellsWithShapes();
     Game.populateCellsWithCoordinates();
-    Game.bindCellsForClick();
     Game.checkMatches();
     return Game.randomShapeClass();
   }
