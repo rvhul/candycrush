@@ -36,21 +36,42 @@ Game = {
   highlightCell: function(cell) {
     return $(cell).children('i').addClass('rubberBand');
   },
-  selectCell: function(cell) {
+  coordinatesOfCell: function(cell) {
     var colNo, rowNo;
+    colNo = parseInt(cell.dataset.colNo);
+    rowNo = parseInt(cell.dataset.rowNo);
+    return [rowNo, colNo];
+  },
+  handleCellClick: function(cell) {
+    var absDiff, colNo, coords, orgColNo, orgRowNo, rowNo;
     if (Game.selectedCell === null) {
-      console.log("fgdfg");
-      Game.selectedCell = cell;
-      $(cell).children('i').addClass('pulse');
-      colNo = parseInt(cell.dataset.colNo);
-      rowNo = parseInt(cell.dataset.rowNo);
-      Game.highlightCell(Game.fetchCell(rowNo - 1, colNo));
-      Game.highlightCell(Game.fetchCell(rowNo + 1, colNo));
-      Game.highlightCell(Game.fetchCell(rowNo, colNo - 1));
-      return Game.highlightCell(Game.fetchCell(rowNo, colNo + 1));
+      return Game.selectCell(cell);
     } else {
-      return Game.deselectCell();
+      coords = Game.coordinatesOfCell(cell);
+      rowNo = coords[0];
+      colNo = coords[1];
+      coords = Game.coordinatesOfCell(Game.selectedCell);
+      orgRowNo = coords[0];
+      orgColNo = coords[1];
+      absDiff = [Math.abs(rowNo - orgRowNo), Math.abs(colNo - orgColNo)].sort();
+      if (absDiff[0] === 0 && absDiff[1] === 1) {
+        return console.log("Neighbor Clicked");
+      } else {
+        return Game.deselectCell();
+      }
     }
+  },
+  selectCell: function(cell) {
+    var colNo, coords, rowNo;
+    Game.selectedCell = cell;
+    $(cell).children('i').addClass('pulse');
+    coords = Game.coordinatesOfCell(cell);
+    rowNo = coords[0];
+    colNo = coords[1];
+    Game.highlightCell(Game.fetchCell(rowNo - 1, colNo));
+    Game.highlightCell(Game.fetchCell(rowNo + 1, colNo));
+    Game.highlightCell(Game.fetchCell(rowNo, colNo - 1));
+    return Game.highlightCell(Game.fetchCell(rowNo, colNo + 1));
   },
   deselectCell: function() {
     $('.cell i').removeClass('rubberBand').removeClass('pulse');
@@ -58,7 +79,7 @@ Game = {
   },
   bindCellsForClick: function() {
     return $('.cell').click(function() {
-      return Game.selectCell(this);
+      return Game.handleCellClick(this);
     });
   },
   checkMatches: function() {
